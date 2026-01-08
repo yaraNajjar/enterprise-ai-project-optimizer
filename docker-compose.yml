@@ -3,6 +3,7 @@ version: "3.9"
 services:
   ai-api:
     build: .
+    container_name: enterprise-ai-api
     ports:
       - "8000:8000"
     volumes:
