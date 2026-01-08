@@ -9,7 +9,7 @@ data = pd.read_csv("projects.csv")
 X = data[["team_size", "issues"]]
 
 # Select target (output)
-y = data["duration"]
+y = data["cost"]
 
 # Create the regression model
 model = LinearRegression()
@@ -17,7 +17,10 @@ model = LinearRegression()
 # Train the model
 model.fit(X, y)
 
-joblib.dump(model, "duration_model.pkl")
+# Print model coefficients for inspection
+print("Model coefficients:", model.coef_)
+print("Model intercept:", model.intercept_)
 
-print("Model trained and saved successfully")
-print("Coefficients:", model.coef_)
+# Save the trained model
+joblib.dump(model, "cost_model.pkl")
+print("Cost prediction model saved successfully")
