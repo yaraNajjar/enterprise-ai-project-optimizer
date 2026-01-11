@@ -2,7 +2,9 @@
 
 ## Overview
 
-AI system to optimize enterprise projects by predicting: project duration, cost, and delay.
+AI system to optimize enterprise projects by predicting project duration, cost, and delay 
+based on historical project data. The system uses machine learning models trained on past projects 
+to provide accurate predictions for new projects.
 
 ## Quick Start with Docker
 
