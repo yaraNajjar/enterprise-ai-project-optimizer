@@ -2,59 +2,84 @@
 
 ## Overview
 
-AI system to optimize enterprise projects by predicting:
+AI system to optimize enterprise projects by predicting: project duration, cost, and delay.
 
-* Project duration (`/predict`)
-* Project delay risk (`/predict_delay`)
-* Project cost (`/predict_cost`)
+## Quick Start with Docker
 
-## Structure
+This project contains:
 
-```
-enterprise-ai-project-optimizer
-├── data/generate_data.py
-├── ml/train.py
-├── ml/train_classification.py
-├── ml/train_cost.py
-├── ml/predict.py
-├── ml/api.py
-├── projects.csv
-├── requirements.txt
-└── README.md
-```
+* **ML API** – Predicts project duration, cost, and delay.
+* **Spring Backend** – Consumes ML API and exposes endpoints for integration.
 
-## Quick Start
+---
 
-1. Install dependencies:
+## Run All Services
+
+1. Make sure Docker is installed and running.
+
+2. Build and start services:
 
 ```
-pip install -r requirements.txt
-```
-
-2. Generate data:
+docker-compose up --build
 
 ```
-python data/generate_data.py
-```
 
-3. Train models:
+3. Services will run on:
 
-```
-python ml/train.py
-python ml/train_classification.py
-python ml/train_cost.py
-```
+* ML API: http://localhost:8000/docs (Swagger UI)
+* Spring Backend: http://localhost:8080
 
-4. Run API:
+Docker Compose handles networking between the ML API and Spring backend automatically.
 
-```
-python -m uvicorn ml.api:app --reload
-```
-
-5. Access docs: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 
 ## API Endpoints
 
-* **POST /predict** → Predict project duration
-* **POST /predict_delay** → Predict delay risk
-* **POST /predict_cost** → Predict project cost
+The project has two servers: **ML API** and **Spring Backend**.
+
+### ML API Endpoints
+
+Method | Endpoint                | Description
+-------|------------------------|-------------
+POST   | /predict_duration       | Predict project duration based on `team_size` and `issues`
+POST   | /predict_cost           | Predict project cost based on `team_size` and `issues`
+POST   | /predict_delay          | Predict if project will be delayed
+POST   | /predict_full           | Predict duration, cost, and delay in one request
+GET    | /projects               | Retrieve all stored project predictions
+
+**Example JSON for `/predict_full`:**
+
+```json
+{
+  "team_size": 5,
+  "issues": 2
+}
+```
+Send this JSON as a POST request to http://localhost:8000/predict_full.
+---
+
+### Spring Backend Endpoints
+
+Spring backend wraps the ML API and provides these endpoints:
+
+Method | Endpoint           | Description
+-------|------------------|-------------
+GET   | /predict           | Predict project duration, cost, and delay via JSON
+
+**Example JSON for `/predict`:**
+
+```json
+{
+  "team_size": 5,
+  "issues": 2
+}
+```
+Send this JSON as a GET request to http://localhost:8080/predict.
+
+---
+
+## Notes
+
+* ML models (*.pkl) are already included in the repo for API usage.
+* projects.db is generated automatically and ignored in GitHub.
+* Make sure ports 8000 (ML API) and 8080 (Spring backend) are free before running.
+
