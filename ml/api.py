@@ -2,12 +2,21 @@ from fastapi import FastAPI
 import joblib
 from db.database import SessionLocal
 from db.models import Project
+from pydantic import BaseModel
+from db.database import engine, Base
+
+Base.metadata.create_all(bind=engine)
+
+app = FastAPI(title="Project Predictor API")
+
+class ProjectInput(BaseModel):
+    team_size: int
+    issues: int
 
 
-app = FastAPI(title="Project Duration Prediction API")
 
 # Load the duration prediction model
-model = joblib.load("duration_model.pkl")
+model = joblib.load("models/duration_model.pkl")
 
 @app.post("/predict_duration")
 def predict_duration(team_size: int, issues: int):
@@ -22,7 +31,7 @@ def predict_duration(team_size: int, issues: int):
     }
 
 # Load the delay prediction model
-delay_model = joblib.load("delay_model.pkl")
+delay_model = joblib.load("models/delay_model.pkl")
 
 @app.post("/predict_delay")
 def predict_delay(team_size: int, issues: int):
@@ -37,7 +46,7 @@ def predict_delay(team_size: int, issues: int):
     }
 
 # Load the cost prediction model
-cost_model = joblib.load("cost_model.pkl")
+cost_model = joblib.load("models/cost_model.pkl")
 
 @app.post("/predict_cost")
 def predict_cost(team_size: int, issues: int):
@@ -65,7 +74,10 @@ def save_project(team_size, issues, duration, cost, delay):
     db.close()
 
 @app.post("/predict_full")
-def predict_full(team_size: int, issues: int):
+def predict_full(input: ProjectInput):
+    team_size = input.team_size
+    issues = input.issues
+
     duration = model.predict([[team_size, issues]])[0]
     cost = cost_model.predict([[team_size, issues]])[0]
     delay = delay_model.predict([[team_size, issues]])[0]
@@ -79,6 +91,7 @@ def predict_full(team_size: int, issues: int):
         "predicted_cost": round(cost, 2),
         "delay_risk": bool(delay)
     }
+
 
 @app.get("/projects")
 def get_projects():

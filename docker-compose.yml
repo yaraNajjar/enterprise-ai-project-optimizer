@@ -1,11 +1,19 @@
-version: "3.9"
-
 services:
   ai-api:
-    build: .
-    container_name: enterprise-ai-api
+    build: ./ml
+    container_name: ai-api
     ports:
       - "8000:8000"
     volumes:
-      - .:/app
-    restart: always
+      - ./ml:/app
+    command: uvicorn api:app --host 0.0.0.0 --port 8000 --reload
+
+  spring-backend:
+    build: ./spring-backend
+    container_name: spring-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - ai-api
+    environment:
+      AI_API_URL: "http://ai-api:8000"
