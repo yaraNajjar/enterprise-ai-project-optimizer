@@ -79,7 +79,7 @@ Spring backend wraps the ML API and provides these endpoints:
 Method | Endpoint           | Description
 -------|------------------|-------------
 GET   | /predict           | Predict project duration, cost, and delay via JSON
-GET   | /projects           | return all projects
+GET   | /projects           | Retrieves all previously predicted projects from the database
 
 ---
 
