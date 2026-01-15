@@ -2,41 +2,55 @@
 
 ## Overview
 
-AI system to optimize enterprise projects by predicting project duration, cost, and delay 
-based on historical project data. The system uses machine learning models trained on past projects 
-to provide accurate predictions for new projects.
-
-## Quick Start with Docker
-
-This project contains:
-
-* **ML API** – Predicts project duration, cost, and delay.
-* **Spring Backend** – Consumes ML API and exposes endpoints for integration.
+Enterprise AI Project Optimizer is a full-stack AI system that predicts **project duration, cost, and delay risk**
+based on **historical enterprise project data** using machine learning.
 
 ---
 
-## Run All Services
+## Tech Stack
 
-1. Make sure Docker is installed and running.
+- **ML API:** Python, FastAPI, scikit-learn
+- **Backend:** Java, Spring Boot
+- **Frontend:** React (Vite)
+- **Database:** SQLite
+- **DevOps:** Docker, Docker Compose
 
-2. Build and start services:
+---
 
-```
+## Architecture
+
+Frontend (React)
+↓
+Spring Backend (Java)
+↓
+ML API (FastAPI)
+↓
+ML Models + SQLite
+
+---
+
+## Run with Docker
+
+### Prerequisites
+- Docker
+- Docker Compose
+
+### Start all services
+From the project root:
+```bash
 docker-compose up --build
-
 ```
 
-3. Services will run on:
+Services
 
-* ML API: http://localhost:8000/docs (Swagger UI)
-* Spring Backend: http://localhost:8080
+Frontend: http://localhost:5173
 
-Docker Compose handles networking between the ML API and Spring backend automatically.
+Spring Backend: http://localhost:8080
+
+ML API Docs: http://localhost:8000/docs
 
 
-## API Endpoints
-
-The project has two servers: **ML API** and **Spring Backend**.
+## Main Endpoints
 
 ### ML API Endpoints
 
@@ -56,7 +70,6 @@ GET    | /projects               | Retrieve all stored project predictions
   "issues": 2
 }
 ```
-Send this JSON as a POST request to http://localhost:8000/predict_full.
 ---
 
 ### Spring Backend Endpoints
@@ -66,22 +79,13 @@ Spring backend wraps the ML API and provides these endpoints:
 Method | Endpoint           | Description
 -------|------------------|-------------
 GET   | /predict           | Predict project duration, cost, and delay via JSON
-
-**Example JSON for `/predict`:**
-
-```json
-{
-  "team_size": 5,
-  "issues": 2
-}
-```
-Send this JSON as a GET request to http://localhost:8080/predict.
+GET   | /projects           | return all projects
 
 ---
 
 ## Notes
 
-* ML models (*.pkl) are already included in the repo for API usage.
+* Trained ML models (*.pkl) are included.
 * projects.db is generated automatically and ignored in GitHub.
-* Make sure ports 8000 (ML API) and 8080 (Spring backend) are free before running.
+* All services communicate via Docker network.
 
