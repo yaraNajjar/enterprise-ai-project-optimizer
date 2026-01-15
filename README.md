@@ -17,11 +17,6 @@ based on **historical enterprise project data** using machine learning.
 
 ---
 
-## Architecture
-
-<pre> ``` Frontend (React) ↓ Spring Backend (Java) ↓ ML API (FastAPI) ↓ ML Models + SQLite ``` </pre>
----
-
 ## Run with Docker
 
 ### Prerequisites
