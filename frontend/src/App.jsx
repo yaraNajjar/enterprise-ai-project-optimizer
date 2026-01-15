@@ -1,0 +1,82 @@
+import { useState } from "react";
+import { predictProject, getProjects } from "./api";
+
+function App() {
+  const [teamSize, setTeamSize] = useState("");
+  const [issues, setIssues] = useState("");
+  const [result, setResult] = useState(null);
+  const [projects, setProjects] = useState([]);
+
+  const handlePredict = async () => {
+    try {
+      const res = await predictProject(
+        Number(teamSize),
+        Number(issues)
+      );
+      setResult(res);
+
+      const allProjects = await getProjects();
+      setProjects(allProjects);
+    } catch (error) {
+      console.error("Prediction error:", error);
+      alert("Prediction failed. Check console.");
+    }
+  };
+
+  return (
+    <div style={{ padding: "20px", fontFamily: "Arial" }}>
+      <h1>Enterprise AI Project Optimizer</h1>
+
+      <div style={{ marginBottom: "20px" }}>
+        <label>Team Size: </label>
+        <input type="number" value={teamSize} onChange={(e) => setTeamSize(e.target.value)} />
+        <br />
+        <label>Issues: </label>
+        <input type="number" value={issues} onChange={(e) => setIssues(e.target.value)} />
+        <br />
+        <button onClick={handlePredict} style={{ marginTop: "10px" }}>Predict</button>
+      </div>
+
+      {result && (
+        <div style={{ marginBottom: "20px" }}>
+          <h2>Prediction Result</h2>
+          <p>Duration: {result.predicted_duration}</p>
+          <p>Cost: {result.predicted_cost}</p>
+          <p>Delay Risk: {result.delay_risk ? "Yes" : "No"}</p>
+        </div>
+      )}
+
+      {projects.length > 0 && (
+        <div>
+          <h2>Previous Projects</h2>
+          <table border="1" cellPadding="5">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Team Size</th>
+                <th>Issues</th>
+                <th>Duration</th>
+                <th>Cost</th>
+                <th>Delay</th>
+              </tr>
+            </thead>
+            <tbody>
+              {projects.map(p => (
+                <tr key={p.id}>
+                  <td>{p.id}</td>
+                  <td>{p.team_size}</td>
+                  <td>{p.issues}</td>
+                  <td>{p.predicted_duration}</td>
+                  <td>{p.predicted_cost}</td>
+                  <td>{p.delay_risk ? "Yes" : "No"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;

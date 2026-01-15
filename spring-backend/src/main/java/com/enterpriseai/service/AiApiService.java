@@ -24,4 +24,10 @@ public class AiApiService {
 
         return response;
     }
+
+    public Object getProjects() {
+        String url = BASE_URL + "/projects";
+        return restTemplate.getForObject(url, Object.class);
+    }
+
 }

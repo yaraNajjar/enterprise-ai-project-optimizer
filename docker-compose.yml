@@ -1,4 +1,8 @@
+version: "3.9"
+
 services:
+
+  # ML API (FastAPI)
   ai-api:
     build: ./ml
     container_name: ai-api
@@ -8,6 +12,7 @@ services:
       - ./ml:/app
     command: uvicorn api:app --host 0.0.0.0 --port 8000 --reload
 
+  # Spring Backend
   spring-backend:
     build: ./spring-backend
     container_name: spring-backend
@@ -17,3 +22,13 @@ services:
       - ai-api
     environment:
       AI_API_URL: "http://ai-api:8000"
+
+  # Frontend (React)
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - spring-backend
+    command: npm run dev -- --host 0.0.0.0
