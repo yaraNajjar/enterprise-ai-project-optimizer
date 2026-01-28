@@ -24,17 +24,29 @@ function App() {
   };
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial" }}>
-      <h1>Enterprise AI Project Optimizer</h1>
+    <div>
+      <div style={{ marginBottom: '20px' }}>
+        <label htmlFor="teamSize">Team Size:</label>
+        <input
+          id="teamSize"
+          type="number"
+          value={teamSize}
+          onChange={(e) => setTeamSize(Number(e.target.value))}
+        />
+        <br />
 
-      <div style={{ marginBottom: "20px" }}>
-        <label>Team Size: </label>
-        <input type="number" value={teamSize} onChange={(e) => setTeamSize(e.target.value)} />
+        <label htmlFor="issues">Issues:</label>
+        <input
+          id="issues"
+          type="number"
+          value={issues}
+          onChange={(e) => setIssues(Number(e.target.value))}
+        />
         <br />
-        <label>Issues: </label>
-        <input type="number" value={issues} onChange={(e) => setIssues(e.target.value)} />
-        <br />
-        <button onClick={handlePredict} style={{ marginTop: "10px" }}>Predict</button>
+
+        <button style={{ marginTop: '10px' }} onClick={handlePredict}>
+          Predict
+        </button>
       </div>
 
       {result && (

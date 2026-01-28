@@ -23,7 +23,7 @@ public class AiController {
         return aiApiService.predictFull(teamSize, issues);
     }
 
-    @GetMapping("/projects")
+    @GetMapping(value = "/projects", produces = "application/json")
     public Object getProjects() {
         return aiApiService.getProjects();
     }
