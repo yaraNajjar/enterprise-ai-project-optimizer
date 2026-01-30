@@ -1,5 +1,4 @@
-# BUG_REPORTS.md
-# Enterprise AI Project Optimizer - Bugs Log
+# Bug Reports – Enterprise AI Project Optimizer
 
 | ID   | Component        | Description                                                      | Steps to Reproduce                                              | Status / Fix / Note                                    |
 |------|-----------------|------------------------------------------------------------------|----------------------------------------------------------------|--------------------------------------------------------|
