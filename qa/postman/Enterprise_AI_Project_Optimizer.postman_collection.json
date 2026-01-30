@@ -1,0 +1,112 @@
+{
+	"info": {
+		"_postman_id": "dbe6d6a2-233a-4155-9713-685f944b26f2",
+		"name": "Enterprise AI Project Optimizer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32310874"
+	},
+	"item": [
+		{
+			"name": "Predict Full",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has predicted_duration\", function () {\r",
+							"    pm.expect(pm.response.json()).to.have.property(\"predicted_duration\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has predicted_cost\", function () {\r",
+							"    pm.expect(pm.response.json()).to.have.property(\"predicted_cost\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has delay_risk\", function () {\r",
+							"    pm.expect(pm.response.json()).to.have.property(\"delay_risk\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"team_size\": 5,\r\n    \"issues\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/predict_full",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"predict_full"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Projects",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is an array\", function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"team_size\": 5,\r\n    \"issues\": 2\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/projects",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"projects"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
