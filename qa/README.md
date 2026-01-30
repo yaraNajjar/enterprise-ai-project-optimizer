@@ -5,7 +5,6 @@ how to run them, and what each test validates.
 
 --------------------------------------------------
 1. Project Architecture (High Level)
---------------------------------------------------
 
 Frontend (React)
    ↓
@@ -17,7 +16,6 @@ SQLite Database
 
 --------------------------------------------------
 2. Testing Types Covered
---------------------------------------------------
 
 ✔ Manual Testing
 ✔ API Testing
@@ -28,7 +26,6 @@ SQLite Database
 
 --------------------------------------------------
 3. ML API Tests (FastAPI)
---------------------------------------------------
 
 Location:
 ml/tests/test_ml_api.py
@@ -48,7 +45,7 @@ How to run:
 
 --------------------------------------------------
 4. Spring Boot Backend Tests
---------------------------------------------------
+
 
 Location:
 spring-backend/src/test/
@@ -64,7 +61,7 @@ mvn test
 
 --------------------------------------------------
 5. Frontend Tests (React)
---------------------------------------------------
+
 
 Location:
 frontend/src/App.test.jsx
@@ -81,7 +78,7 @@ npm test
 
 --------------------------------------------------
 6. Integration Testing
---------------------------------------------------
+
 
 Test Flow:
 React → Spring Boot → FastAPI → Database
@@ -96,7 +93,7 @@ qa/INTEGRATION_TESTS.md
 
 --------------------------------------------------
 7. Postman API Testing
---------------------------------------------------
+
 
 Location:
 qa/postman/
@@ -112,7 +109,7 @@ Validated:
 
 --------------------------------------------------
 8. Known Issues & Bug Tracking
---------------------------------------------------
+
 
 Documented in:
 qa/BUG_REPORTS.md
@@ -125,7 +122,7 @@ Includes:
 
 --------------------------------------------------
 9. Conclusion
---------------------------------------------------
+
 
 This project demonstrates a full QA mindset:
 - Clear documentation
