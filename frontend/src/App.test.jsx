@@ -54,3 +54,31 @@ test('fetches prediction from Spring backend and displays result', async () => {
   expect(await screen.findByText(/Cost:/i)).toHaveTextContent('50000');
   expect(await screen.findByText(/Delay Risk:/i)).toHaveTextContent('No');
 });
+
+test('handles API failure gracefully', async () => {
+  global.fetch = vi.fn(() =>
+    Promise.resolve({
+      ok: false,
+      status: 500,
+    })
+    
+  );
+
+  render(<App />);
+
+  fireEvent.change(screen.getByLabelText(/Team Size/i), {
+    target: { value: '5' },
+  });
+
+  fireEvent.change(screen.getByLabelText(/Issues/i), {
+    target: { value: '3' },
+  });
+
+  fireEvent.click(screen.getByRole('button', { name: /Predict/i }));
+
+  await waitFor(() => {
+    expect(global.fetch).toHaveBeenCalled();
+  });
+
+  expect(await screen.findByText(/error/i)).toBeInTheDocument();
+});

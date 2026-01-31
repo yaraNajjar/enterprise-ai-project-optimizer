@@ -47,22 +47,33 @@ class AiControllerTest {
     @Test
     @DisplayName("GET /projects returns all projects")
     void testGetProjects() throws Exception {
-    List<Map<String, Object>> mockProjects = List.of(
-        Map.of(
-            "id", 1,
-            "team_size", 5,
-            "issues", 2,
-            "predicted_duration", 80,
-            "predicted_cost", 40000,
-            "delay_risk", false
-        )
-    );
+        List<Map<String, Object>> mockProjects = List.of(
+            Map.of(
+                "id", 1,
+                "team_size", 5,
+                "issues", 2,
+                "predicted_duration", 80,
+                "predicted_cost", 40000,
+                "delay_risk", false
+            )
+        );
 
-    when(aiApiService.getProjects()).thenReturn(mockProjects);
+        when(aiApiService.getProjects()).thenReturn(mockProjects);
 
-    mockMvc.perform(get("/projects")
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$[0].team_size").value(5));
-}
+        mockMvc.perform(get("/projects")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].team_size").value(5));
+    }
+
+    @Test
+    @DisplayName("GET /predict returns 500 when ML API fails")
+    void testPredictFailure() throws Exception {
+        when(aiApiService.predictFull(5, 3))
+                .thenThrow(new RuntimeException("ML API down"));
+
+        mockMvc.perform(get("/predict/5/3"))
+                .andExpect(status().is5xxServerError());
+    }
+
 }

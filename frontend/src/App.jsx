@@ -6,9 +6,12 @@ function App() {
   const [issues, setIssues] = useState("");
   const [result, setResult] = useState(null);
   const [projects, setProjects] = useState([]);
+  const [error, setError] = useState(null); // ✅ new state
 
   const handlePredict = async () => {
     try {
+      setError(null); // reset old error
+
       const res = await predictProject(
         Number(teamSize),
         Number(issues)
@@ -17,9 +20,10 @@ function App() {
 
       const allProjects = await getProjects();
       setProjects(allProjects);
-    } catch (error) {
-      console.error("Prediction error:", error);
-      alert("Prediction failed. Check console.");
+
+    } catch (err) {
+      console.error("Prediction error:", err);
+      setError("Error: Prediction failed. Please try again."); // ✅ show UI error
     }
   };
 
@@ -48,6 +52,11 @@ function App() {
           Predict
         </button>
       </div>
+
+      {/* ✅ error message shown in UI */}
+      {error && (
+        <p style={{ color: "red" }}>{error}</p>
+      )}
 
       {result && (
         <div style={{ marginBottom: "20px" }}>
